@@ -1037,12 +1037,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67eeafbfa0234914cac93f64df50b6c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bodySprite: {fileID: 21300000, guid: d4b6518cf67653f4eb7a9a19b13b0389, type: 3}
+  bodySprite: {fileID: 21300000, guid: 4a7fa2396c345c74e8457375d1eb2849, type: 3}
   grid: {fileID: 134659477}
   borderTilemap: {fileID: 1297637259}
-  dir: {x: 0, y: 0, z: 0}
+  dir: 0
   game_manager_script: {fileID: 1166779194}
-  posInGrid: {x: 0, y: 0, z: 0}
+  gridPosition: {x: 0, y: 0, z: 0}
 --- !u!212 &784408736
 SpriteRenderer:
   m_ObjectHideFlags: 0

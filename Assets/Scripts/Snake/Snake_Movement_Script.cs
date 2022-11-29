@@ -209,7 +209,7 @@ public class Snake_Movement_Script : MonoBehaviour
                 Vector3 bodyPartWorldPos = grid.CellToWorld(snakeMovePositionList[i].GetGridPosition());
 
                 bodyPart.transform.position = new Vector3(bodyPartWorldPos.x, bodyPartWorldPos.y, 0);
-                bodyPart.transform.eulerAngles = new Vector3(0, 0, GetAngleForBodyPart(snakeMovePositionList[i]));
+                bodyPart.transform.eulerAngles = new Vector3(0, 0, GetAngleForBodyPart(snakeMovePositionList[i-1]));
                 Destroy(bodyPart, gridMoveTimerMax);
             }
 
@@ -374,7 +374,7 @@ public class Snake_Movement_Script : MonoBehaviour
                 }
                 break;
         }
-        return angle;
+        return -angle;
     }
 
     public Vector3Int SnakeMovementVector(SnakeMovement snakeMovement)

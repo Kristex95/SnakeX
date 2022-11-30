@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Game_Manager_Script : MonoBehaviour
 {
@@ -17,13 +18,24 @@ public class Game_Manager_Script : MonoBehaviour
 
     [SerializeField]
     private Snake_Movement_Script snake_script;
-
     private Vector3Int appleGridPos;
     private GameObject apple;
+
+    private int score = 0;
+
+    [Header("UI")]
+
+    [SerializeField]
+    private TextMeshProUGUI scoreText;
+    [SerializeField]
+    private GameObject restartPanel;
+
 
     void Start()
     {
         SpawnApple();
+        score = 0;
+        scoreText.text = "Score: " + score;
     }
 
     void Update()
@@ -75,12 +87,24 @@ public class Game_Manager_Script : MonoBehaviour
         {
             Destroy(apple);
             snake_script.IncreaseBodyLength();
+            scoreText.text = "Score: " + ++score;
             SpawnApple();
         }
     }
 
-    internal void GameOver()
+    public void GameOver()
     {
         snake_script.SetIsAlive(false);
+        restartPanel.SetActive(true);
+    }
+
+    public void RestartGame()
+    {
+        snake_script.ResetSnake();
+        score = 0;
+        scoreText.text = "Score: " + score;
+        Destroy(apple);
+        restartPanel.SetActive(false);
+        SpawnApple();
     }
 }

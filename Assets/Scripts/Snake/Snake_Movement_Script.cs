@@ -61,6 +61,7 @@ public class Snake_Movement_Script : MonoBehaviour
 
     }
 
+
     public Dictionary<Direction, Vector3> Directions = new Dictionary<Direction, Vector3>()
     {
         { Direction.Up, new Vector3Int(1, 0, 0) },
@@ -105,7 +106,7 @@ public class Snake_Movement_Script : MonoBehaviour
 
     private void Awake()
     {
-        gridMoveTimerMax = 1f;
+        gridMoveTimerMax = 0.7f;
         gridMoveTimer = gridMoveTimerMax;
     }
 
@@ -193,12 +194,15 @@ public class Snake_Movement_Script : MonoBehaviour
             for (int i = 1; i < snakeMovePositionList.Count; i++)
             {
                 GameObject bodyPart = new GameObject();
-                bodyPart.AddComponent<SpriteRenderer>().sprite = bodyStaightSprite;
+
+                SpriteRenderer spriteRenderer = bodyPart.AddComponent<SpriteRenderer>();
+                spriteRenderer.sprite = GetAngleAndSpriteForBodyPart(snakeMovePositionList[i - 1]).sprite;
+                spriteRenderer.flipX = GetAngleAndSpriteForBodyPart(snakeMovePositionList[i - 1]).flip;
+
 
                 Vector3 bodyPartWorldPos = grid.CellToWorld(snakeMovePositionList[i].GetGridPosition());
-
                 bodyPart.transform.position = new Vector3(bodyPartWorldPos.x, bodyPartWorldPos.y, 0);
-                bodyPart.transform.eulerAngles = new Vector3(0, 0, GetAngleForBodyPart(snakeMovePositionList[i-1]));
+                bodyPart.transform.eulerAngles = new Vector3(0, 0, GetAngleAndSpriteForBodyPart(snakeMovePositionList[i-1]).angle);
                 Destroy(bodyPart, gridMoveTimerMax);
             }
 
@@ -238,9 +242,11 @@ public class Snake_Movement_Script : MonoBehaviour
         return n;
     }
 
-    private float GetAngleForBodyPart(SnakeMovement snakeMovement)
+    private (float angle, Sprite sprite, bool flip) GetAngleAndSpriteForBodyPart(SnakeMovement snakeMovement)
     {
         float angle = 0;
+        Sprite sprite= bodyStaightSprite;
+        bool flip = false;
         switch (snakeMovement.GetDirection())
         {
             default:
@@ -249,18 +255,25 @@ public class Snake_Movement_Script : MonoBehaviour
                 {
                     default:
                         angle = 0;
+                        sprite = bodyStaightSprite;
                         break;
                     case Direction.UpRight:
-                        angle = 30;
+                        angle = 180;
+                        sprite = body120Sprite;
                         break;
                     case Direction.DownRight:
-                        angle = 60;
+                        angle = 180;
+                        sprite = body60Sprite;
                         break;
                     case Direction.DownLeft:
-                        angle = 300;
+                        angle = 180;
+                        flip = true;
+                        sprite = body60Sprite;
                         break;
                     case Direction.UpLeft:
-                        angle = 330;
+                        angle = 180;
+                        flip = true;
+                        sprite = body120Sprite;                        
                         break;
                 }
                 break;
@@ -271,16 +284,22 @@ public class Snake_Movement_Script : MonoBehaviour
                         angle = 300;
                         break;
                     case Direction.Up:
-                        angle = 330;
+                        angle = 0;
+                        sprite = body120Sprite;
+                        flip = true;
                         break;
                     case Direction.UpRight:
-                        angle = 360;
+                        angle = 60;
+                        sprite = body60Sprite;
+                        flip = true;
                         break;
                     case Direction.DownLeft:
-                        angle = 270;
+                        angle = -120;
+                        sprite = body120Sprite;
                         break;
                     case Direction.Down:
-                        angle = 240;
+                        angle = 180;
+                        sprite = body60Sprite;
                         break;
                 }
                 break;
@@ -291,16 +310,22 @@ public class Snake_Movement_Script : MonoBehaviour
                         angle = 60;
                         break;
                     case Direction.Up:
-                        angle = 30;
+                        angle = 0;
+                        sprite = body120Sprite;
                         break;
                     case Direction.UpLeft:
-                        angle = 0;
+                        angle = -60;
+                        sprite = body60Sprite;
                         break;
                     case Direction.DownRight:
-                        angle = 90;
+                        angle = 120;
+                        sprite = body120Sprite;
+                        flip = true;
                         break;
                     case Direction.Down:
-                        angle = 120;
+                        angle = 180;
+                        sprite = body60Sprite;
+                        flip = true;
                         break;
                 }
                 break;
@@ -311,16 +336,22 @@ public class Snake_Movement_Script : MonoBehaviour
                         angle = 120;
                         break;
                     case Direction.Down:
-                        angle = 150;
+                        angle = 180;
+                        sprite = body120Sprite;
+                        flip = true;
                         break;
                     case Direction.DownLeft:
-                        angle = 180;
+                        angle = -120;
+                        sprite = body60Sprite;
+                        flip = true;
                         break;
                     case Direction.UpRight:
-                        angle = 90;
+                        angle = 60;
+                        sprite = body120Sprite;
                         break;
                     case Direction.Up:
-                        angle = 60;
+                        angle = 0;
+                        sprite = body60Sprite;
                         break;
                 }
                 break;
@@ -331,16 +362,22 @@ public class Snake_Movement_Script : MonoBehaviour
                         angle = 240;
                         break;
                     case Direction.Down:
-                        angle = 210;
+                        angle = 180;
+                        sprite = body120Sprite;
                         break;
                     case Direction.DownRight:
-                        angle = 180;
+                        angle = 120;
+                        sprite = body60Sprite;
                         break;
                     case Direction.UpLeft:
-                        angle = 270;
+                        angle = -60;
+                        sprite = body120Sprite;
+                        flip = true;
                         break;
                     case Direction.Up:
-                        angle = 300;
+                        angle = 0;
+                        sprite = body60Sprite;
+                        flip = true;
                         break;
                 }
                 break;
@@ -351,21 +388,28 @@ public class Snake_Movement_Script : MonoBehaviour
                         angle = 180;
                         break;
                     case Direction.DownRight:
-                        angle = 150;
+                        angle = 120;
+                        sprite = body120Sprite;
                         break;
                     case Direction.DownLeft:
-                        angle = 210;
+                        angle = -120;
+                        sprite = body120Sprite;
+                        flip = true;
                         break;
                     case Direction.UpRight:
-                        angle = 120;
+                        angle = 60;
+                        sprite = body60Sprite;
                         break;
                     case Direction.UpLeft:
-                        angle = 240;
+                        angle = -60;
+                        sprite = body60Sprite;
+                        flip = true;
                         break;
                 }
                 break;
         }
-        return -angle;
+        (float, Sprite, bool) tuple = (-angle, sprite, flip);
+        return tuple;
     }
 
     public Vector3Int SnakeMovementVector(SnakeMovement snakeMovement)

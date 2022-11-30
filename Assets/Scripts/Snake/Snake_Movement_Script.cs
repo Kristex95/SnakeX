@@ -22,7 +22,6 @@ public class Snake_Movement_Script : MonoBehaviour
         public Direction direction;
         public Vector3Int gridPosition;
         public SnakeMovement previousSnakePosition;
-
         public SnakeMovement(SnakeMovement previousSnakePosition, Direction direction, Vector3Int gridPosition)
         {
             this.previousSnakePosition = previousSnakePosition;
@@ -83,6 +82,7 @@ public class Snake_Movement_Script : MonoBehaviour
 
     [SerializeField]
     private Direction dir;
+    private Direction previousDirection;
     private Vector3 desiredPos = Vector3.zero;
 
     [SerializeField]
@@ -101,7 +101,7 @@ public class Snake_Movement_Script : MonoBehaviour
 
     private void Awake()
     {
-        gridMoveTimerMax = 0.6f;
+        gridMoveTimerMax = 1f;
         gridMoveTimer = gridMoveTimerMax;
     }
 
@@ -109,6 +109,7 @@ public class Snake_Movement_Script : MonoBehaviour
     void Start()
     {
         dir = Direction.Up;
+        previousDirection = dir;
         transform.position = Vector3.zero;
     }
 
@@ -117,7 +118,6 @@ public class Snake_Movement_Script : MonoBehaviour
     {
         if (!isAlive)
             return;
-        //GetInput();
         MovePosition();
     }
 
@@ -126,6 +126,7 @@ public class Snake_Movement_Script : MonoBehaviour
         snakeBodySize = 3;
         snakeMovePositionList = new List<SnakeMovement>();
         dir = Direction.Up;
+        previousDirection= dir;
         desiredPos = Vector3.zero;
         gridPosition = Vector3Int.zero;
         transform.position = grid.CellToWorld(gridPosition);
@@ -135,12 +136,12 @@ public class Snake_Movement_Script : MonoBehaviour
 
     public bool IsOppositeDirection(Direction direction)
     {
-        if ((direction == Direction.Up && dir == Direction.Down)
-            || (direction == Direction.Down && dir == Direction.Up)
-            || (direction == Direction.UpLeft && dir == Direction.DownRight)
-            || (direction == Direction.DownRight && dir == Direction.UpLeft)
-            || (direction == Direction.DownLeft && dir == Direction.UpRight)
-            || (direction == Direction.UpRight && dir == Direction.DownLeft))
+        if ((direction == Direction.Up && previousDirection == Direction.Down)
+            || (direction == Direction.Down && previousDirection == Direction.Up)
+            || (direction == Direction.UpLeft && previousDirection == Direction.DownRight)
+            || (direction == Direction.DownRight && previousDirection == Direction.UpLeft)
+            || (direction == Direction.DownLeft && previousDirection == Direction.UpRight)
+            || (direction == Direction.UpRight && previousDirection == Direction.DownLeft))
         {
             return true;
         }
@@ -151,35 +152,6 @@ public class Snake_Movement_Script : MonoBehaviour
     public void TrySetDirection(Direction direction)
     {
         if (!IsOppositeDirection(direction)) dir = direction;
-    }
-
-    // TODO: you can go backwards if u press another button before snake moves
-    public void GetInput()
-    {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            TrySetDirection(Direction.Up);
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            TrySetDirection(Direction.Down);
-        }
-        else if (Input.GetKey(KeyCode.E))
-        {
-            TrySetDirection(Direction.UpRight);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            TrySetDirection(Direction.DownRight);
-        }
-        else if (Input.GetKey(KeyCode.Q))
-        {
-            TrySetDirection(Direction.UpLeft);
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            TrySetDirection(Direction.DownLeft);
-        }
     }
 
     public void MovePosition()
@@ -239,8 +211,10 @@ public class Snake_Movement_Script : MonoBehaviour
             transform.position = snakeWorldPos;
             transform.eulerAngles = new Vector3(0, 0, GetAngleFromVector(Directions[dir]) - 90);
             game_manager_script.MoveSnake(gridPosition);
+            previousDirection = dir;
         }
 
+        
     }
 
     public void SetIsAlive(bool _bool)
@@ -416,7 +390,7 @@ public class Snake_Movement_Script : MonoBehaviour
     }
 
     public void PressButtonUpRight()
-    {
+    { 
         if (!isAlive) return;
         TrySetDirection(Direction.UpRight);
     }

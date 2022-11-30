@@ -72,7 +72,11 @@ public class Snake_Movement_Script : MonoBehaviour
     };
 
     [SerializeField]
-    private Sprite bodySprite;
+    private Sprite bodyStaightSprite;
+    [SerializeField]
+    private Sprite body60Sprite;
+    [SerializeField]
+    private Sprite body120Sprite;
 
     [SerializeField]
     private Grid grid;
@@ -189,7 +193,7 @@ public class Snake_Movement_Script : MonoBehaviour
             for (int i = 1; i < snakeMovePositionList.Count; i++)
             {
                 GameObject bodyPart = new GameObject();
-                bodyPart.AddComponent<SpriteRenderer>().sprite = bodySprite;
+                bodyPart.AddComponent<SpriteRenderer>().sprite = bodyStaightSprite;
 
                 Vector3 bodyPartWorldPos = grid.CellToWorld(snakeMovePositionList[i].GetGridPosition());
 

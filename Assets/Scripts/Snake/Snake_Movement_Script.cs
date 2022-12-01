@@ -128,12 +128,17 @@ public class Snake_Movement_Script : MonoBehaviour
 
     public void ResetSnake()
     {
+
         snakeBodySize = 3;
+
         snakeMovePositionList = new List<SnakeMovement>();
+
         dir = Direction.Up;
         previousDirection= dir;
         desiredPos = Vector3.zero;
         gridPosition = Vector3Int.zero;
+        gridMoveTimer = gridMoveTimerMax;
+
         transform.position = grid.CellToWorld(gridPosition);
         transform.eulerAngles = Vector3.zero;
         SetIsAlive(true);
@@ -220,9 +225,7 @@ public class Snake_Movement_Script : MonoBehaviour
             transform.eulerAngles = new Vector3(0, 0, GetAngleFromVector(Directions[dir]) - 90);
             game_manager_script.MoveSnake(gridPosition);
             previousDirection = dir;
-        }
-
-        
+        }   
     }
 
     public void SetIsAlive(bool _bool)

@@ -30,6 +30,10 @@ public class Game_Manager_Script : MonoBehaviour
     [SerializeField]
     private GameObject restartPanel;
 
+    [Header("Sounds")]
+    [SerializeField]
+    private AudioSource scoreSound;
+
     // Game LifeCycle 
     void Start()
     {
@@ -105,6 +109,9 @@ public class Game_Manager_Script : MonoBehaviour
             Destroy(Instantiate(splashEffectPrefab, apple.transform.position, Quaternion.identity), 0.3f);
             Destroy(apple);
             scoreText.text = "Score: " + ++score;
+
+            scoreSound.Play();
+
             SpawnApple();
             return true;
         }

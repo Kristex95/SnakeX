@@ -154,7 +154,7 @@ public class Snake_Movement_Script : MonoBehaviour
         }
         else
         {
-            PrintVector(GetFullGridPositionList());
+            //PrintVector(GetFullGridPositionList());
             snakeBodySize++;
         }
     }

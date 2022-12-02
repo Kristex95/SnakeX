@@ -19,6 +19,8 @@ public class Game_Manager_Script : MonoBehaviour
     private GameObject applePrefab;
     private Vector3Int appleGridPos;
     private GameObject apple;
+    [SerializeField]
+    private GameObject splashEffectPrefab;
 
     // Panels and score 
     private int score = 0;
@@ -100,6 +102,7 @@ public class Game_Manager_Script : MonoBehaviour
     {
         if(snakePos == appleGridPos)
         {
+            Destroy(Instantiate(splashEffectPrefab, apple.transform.position, Quaternion.identity), 0.3f);
             Destroy(apple);
             scoreText.text = "Score: " + ++score;
             SpawnApple();

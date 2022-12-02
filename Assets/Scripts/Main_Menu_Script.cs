@@ -9,6 +9,8 @@ public class Main_Menu_Script : MonoBehaviour
     [SerializeField]
     private GameObject settingsPanel;
     [SerializeField]
+    private AudioSource musicAudio;
+    [SerializeField]
     private Scrollbar musicVolumeScrollbar;
     [SerializeField]
     private Scrollbar effectsVolumeScrollbar;
@@ -16,10 +18,9 @@ public class Main_Menu_Script : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!PlayerPrefs.HasKey("music")) PlayerPrefs.SetFloat("music", 1f);
         if (!PlayerPrefs.HasKey("effects")) PlayerPrefs.SetFloat("effects", 1f);
-        musicVolumeScrollbar.value = PlayerPrefs.GetFloat("music");
         effectsVolumeScrollbar.value = PlayerPrefs.GetFloat("effects");
+        DontDestroyOnLoad(musicAudio);
     }
 
     // Update is called once per frame
@@ -45,7 +46,7 @@ public class Main_Menu_Script : MonoBehaviour
 
     public void SetMusicVolume()
     {
-        PlayerPrefs.SetFloat("music", musicVolumeScrollbar.value);
+        musicAudio.volume = musicVolumeScrollbar.value;
     }
 
     public void SetEffectsVolume()

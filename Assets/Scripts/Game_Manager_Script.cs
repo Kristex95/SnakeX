@@ -33,15 +33,11 @@ public class Game_Manager_Script : MonoBehaviour
 
     [Header("Sounds")]
     [SerializeField]
-    private AudioSource musicSound;
-    [SerializeField]
     private AudioSource effectSound;
-    private string musicVolume = "music";
     private string effectVolume = "effects";
 
     private void Awake()
     {
-        musicSound.volume = PlayerPrefs.GetFloat(musicVolume);
         effectSound.volume = PlayerPrefs.GetFloat(effectVolume);
     }
 

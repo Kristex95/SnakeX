@@ -57,6 +57,16 @@ public class Snake_Movement_Script : MonoBehaviour
     {
         return snakeMovement.GetGridPosition();
     }
+
+    public void PrintVector(List<Vector3Int> list)
+    {
+        Debug.Log("Moved");
+        foreach (Vector3Int vector in list)
+        {
+            Debug.Log(vector);
+        }
+        Debug.Log("\n");
+    }
     public List<Vector3Int> GetFullGridPositionList()
     {
         List<Vector3Int> gridPositonList = new List<Vector3Int>() { gridPosition };
@@ -95,7 +105,7 @@ public class Snake_Movement_Script : MonoBehaviour
     }
     private void Awake()
     {
-        gridMoveTimerMax = 0.5f;
+        gridMoveTimerMax = 1.5f;
         gridMoveTimer = gridMoveTimerMax;
     }
     void Start()
@@ -107,6 +117,7 @@ public class Snake_Movement_Script : MonoBehaviour
         if (!isAlive)
             return;
         MoveSnake();
+        
     }
     public void ResetSnake()
     {
@@ -120,18 +131,6 @@ public class Snake_Movement_Script : MonoBehaviour
     // LOGIC: If the snake hasn't eaten an apple than the last part of the body will move to the previous snake head posiion, else it will stay and new body part will be added;
     public void UpdateSnakeBody()
     {
-        // Remove Last Piecs If Apple Not Eaten
-        if (!game_manager_script.TryEatApple(gridPosition))
-        {
-            snakeMovePositionList.RemoveAt(snakeMovePositionList.Count - 1);
-            Destroy(bodyParts[bodyParts.Count - 1]);
-            bodyParts.RemoveAt(bodyParts.Count - 1);
-        }
-        else
-        {
-            snakeBodySize++;
-        }
-
         // Insert BodyPart In Previous Head Position
         SnakeMovement previousSnakeMovePosition = null;
         if (snakeMovePositionList.Count > 0)
@@ -145,6 +144,19 @@ public class Snake_Movement_Script : MonoBehaviour
         sp.sprite = tuple.sprite;
         sp.flipX = tuple.flip;
         bodyParts[0].transform.eulerAngles = new Vector3(0, 0, tuple.angle);
+
+        // Remove Last Piecs If Apple Not Eaten
+        if (!game_manager_script.TryEatApple(gridPosition))
+        {
+            snakeMovePositionList.RemoveAt(snakeMovePositionList.Count - 1);
+            Destroy(bodyParts[bodyParts.Count - 1]);
+            bodyParts.RemoveAt(bodyParts.Count - 1);
+        }
+        else
+        {
+            PrintVector(GetFullGridPositionList());
+            snakeBodySize++;
+        }
     }
     public void UpdateSnakeHead()
     {
@@ -181,8 +193,9 @@ public class Snake_Movement_Script : MonoBehaviour
         {
             previousGridPosition = gridPosition;
             UpdateSnakeHead();
-            CheckCollisions();
             UpdateSnakeBody();
+            CheckCollisions();
+            
             previousDirection = dir;
             gridMoveTimer -= gridMoveTimerMax;
         }

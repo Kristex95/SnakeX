@@ -35,15 +35,18 @@ public class Game_Manager_Script : MonoBehaviour
         score = 0;
         scoreText.text = "Score: " + score;
     }
+
     void Update()
     {
         
     }
+
     public void GameOver()
     {
         snake_script.SetIsAlive(false);
         restartPanel.SetActive(true);
     }
+
     public void RestartGame()
     {
         snake_script.ResetSnake();
@@ -92,6 +95,7 @@ public class Game_Manager_Script : MonoBehaviour
 
         apple = Instantiate(applePrefab, worldPos, Quaternion.identity);
     }
+
     public bool TryEatApple(Vector3Int snakePos)
     {
         if(snakePos == appleGridPos)

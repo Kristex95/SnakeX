@@ -47,6 +47,7 @@ public class Snake_Movement_Script : MonoBehaviour
     private List<SnakeMovement> snakeMovePositionList;
     private List<GameObject> bodyParts;
 
+
     // Setters and Getters
     public void SetIsAlive(bool _bool)
     {

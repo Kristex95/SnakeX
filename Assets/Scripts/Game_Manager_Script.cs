@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Game_Manager_Script : MonoBehaviour
@@ -32,7 +33,17 @@ public class Game_Manager_Script : MonoBehaviour
 
     [Header("Sounds")]
     [SerializeField]
-    private AudioSource scoreSound;
+    private AudioSource musicSound;
+    [SerializeField]
+    private AudioSource effectSound;
+    private string musicVolume = "music";
+    private string effectVolume = "effects";
+
+    private void Awake()
+    {
+        musicSound.volume = PlayerPrefs.GetFloat(musicVolume);
+        effectSound.volume = PlayerPrefs.GetFloat(effectVolume);
+    }
 
     // Game LifeCycle 
     void Start()
@@ -110,12 +121,17 @@ public class Game_Manager_Script : MonoBehaviour
             Destroy(apple);
             scoreText.text = "Score: " + ++score;
 
-            scoreSound.Play();
+            effectSound.Play();
 
             SpawnApple();
             return true;
         }
 
         return false;
+    }
+
+    public void ExitToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
